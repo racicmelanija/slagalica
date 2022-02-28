@@ -3,16 +3,42 @@ package com.example.slagalica;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class SlagalicaServiceImpl implements SlagalicaService{
     private final SlagalicaRepository slagalicaRepository;
+    private static final int maxNumOfLetters = 12;
 
     @Autowired
     public SlagalicaServiceImpl(SlagalicaRepository slagalicaRepository){
         this.slagalicaRepository = slagalicaRepository;
+    }
+
+    public List<String> findAllWords(List<String> chars){
+        List<String> ret = new ArrayList<>();
+        for(int i = maxNumOfLetters; i >= 1; i--){
+            ret.addAll(findWords(chars, i));
+        }
+
+        return ret;
+    }
+
+    public List<String> findWords(List<String> chars, int k){
+        List<String> ret = new ArrayList<>();
+        Combinations combinations = new Combinations(chars, maxNumOfLetters, k);
+        List<List<String>> res = combinations.combine();
+
+        for (List<String> listOfChars: res) {
+            List<String> foundWords = slagalicaRepository.findWordsBySortedChars(sortChars(String.join("", listOfChars)));
+            for (String word: foundWords) {
+                if(word != null){
+                    ret.add(word);
+                }
+            }
+        }
+
+        return ret;
     }
 
     public void sortWords(){
