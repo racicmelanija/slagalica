@@ -1,0 +1,20 @@
+<div class="d-flex flex-column m-5" *ngIf="letters">
+  <h3 class="container text-center">Slagalica</h3>
+  <div class="d-flex flex-column container justify-content-center">
+    <div class="d-flex flex-row justify-content-between margin">
+      <input *ngFor="let letter of letters; index as i" type="text" name="input-{{i}}" id="{{i}}" class="content-border" maxlength="1" [(ngModel)]="letters[i].letter">
+    </div>
+    <div class="d-flex flex-row justify-content-center" id="disclaimer">*latinična slova još uvek nisu podržana</div>
+    <div class="d-flex flex-row justify-content-center margin">
+      <button class="button-29 content-border" (click)="findWords()">Nadji reči</button>
+    </div>
+  </div>
+  <div class="d-flex container flex-column justify-content-center margin content-border" id="words">
+    <h6 class="text-center p-2" id="header">
+      Pronadjene reči:
+    </h6>
+    <div class="d-flex flex-wrap justify-content-center" *ngIf="words">
+      <div class="p-2" *ngFor="let word of words">{{word}}</div>
+    </div>
+  </div>
+</div>
