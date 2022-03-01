@@ -2,31 +2,25 @@ package com.example.slagalica;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 public class SlagalicaApplication {
 
     public static void main(String[] args) {
-        ApplicationContext applicationContext = SpringApplication.run(SlagalicaApplication.class, args);
-        SlagalicaService service = applicationContext.getBean(SlagalicaServiceImpl.class);
-        List<String> test = new ArrayList<>();
-        test.add("а");
-        test.add("н");
-        test.add("т");
-        test.add("и");
-        test.add("ц");
-        test.add("и");
-        test.add("п");
-        test.add("а");
-        test.add("ц");
-        test.add("и");
-        test.add("ј");
-        test.add("а");
-        System.out.println(service.findAllWords(test));
+        SpringApplication.run(SlagalicaApplication.class, args);
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedMethods("GET", "POST", "PUT", "DELETE").allowedOrigins("http://localhost:4200");
+            }
+        };
     }
 
 }
